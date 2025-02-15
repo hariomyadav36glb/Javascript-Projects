@@ -1,69 +1,81 @@
-const board = document.querySelector('.board');
+// const board = document.querySelector(".board");
+let flag = 'O';
 
-let arr = new Array(9).fill(null);
-let turn = "O";
-
-// deciding winner
-let tic = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null]
+let winner = [
+  [0,1,2],
+  [3,4,5],
+  [6,7,8],
+  [0,3,6],
+  [1,4,7],
+  [2,5,8],
+  [0,4,8],
+  [2,4,6]
 ];
+
+let board_array = new Array(9).fill("E");
 function isWinner()
 {
-  if(tic[0][0]!=null && tic[0][0]==tic[0][1] && tic[0][1]==tic[0][2] ||
-    tic[1][0]!=null && tic[1][0]==tic[1][1] && tic[1][1]==tic[1][2] ||
-    tic[2][0]!=null &&  tic[2][0]==tic[2][1] && tic[2][1]==tic[2][2] ||
-    tic[0][0]!=null &&  tic[0][0]==tic[1][0] && tic[1][0]==tic[2][0] ||
-    tic[0][1]!=null && tic[0][1]==tic[1][1] && tic[1][1]==tic[2][1] ||
-    tic[0][2]!=null &&  tic[0][2]==tic[1][2] && tic[1][2]==tic[2][2] ||
-    tic[0][0]!=null &&  tic[0][0]==tic[1][1] && tic[1][1]==tic[2][2])
-    return 1;
-    
-
+   for(let [index0,index1,index2] of winner)
+   {
+    if(board_array[index0]!="E" && board_array[index0]===board_array[index1] && board_array[index1] ===board_array[index2]) return 1;
+   }
+   return 0;
 }
 
-
-const fun =  (event) => {
-  ele = event.target;
-  let parsedId = parseInt(ele.id, 10); // Parse ele.id to an integer
-
-  if (arr[parsedId] === null) {
-    if (turn === "O") {
-      ele.innerHTML = turn;
-      arr[parsedId] = parsedId;
-      // console.log(parsedId);
-      tic[Math.floor(parsedId / 3)][parsedId % 3] = turn; // Use Math.floor() for row index
-    if(isWinner()){
+const printer = (event)=>{
+  const element = event.target;
+  if(board_array[element.id]=="E")
+  {
+    cnt++;
+   if(flag==='O')
+     {
+       element.innerHTML = "O";
+       element.style.color="green";
       
-       document.getElementById('winningMessage').innerHTML="Winner is " + turn;
-          board.removeEventListener('click',fun);
-    }
-      turn = "X";
-    } else {
-      ele.innerHTML = turn;
-      arr[parsedId] = parsedId;
-      tic[Math.floor(parsedId / 3)][parsedId % 3] = turn; // Use Math.floor() for row index
-      // console.log(tic);
-      if(isWinner()){
-        document.getElementById('winningMessage').innerHTML="Winner is " + turn;
-        board.removeEventListener('click',fun);
-      }
-      turn = "O";
-    }
-  }
-};
+       board_array[element.id]="O";
+       
+       if(isWinner())
+       {
+        document.getElementById('winningMessage').innerHTML ="WINNER IS O"; 
 
-board.addEventListener('click',fun);
-     
-// if(!tic.includes(null)) document.getElementById('winningMessage').innerHTML="Winner is " + turn;
-function checkTie(tic) {
-  // Check if any cell is still empty
-  for (let row of tic) {
-      if (row.includes(null)) { // or use '' if empty cells are represented as ''
-          return false; // The game is still ongoing
-      }
+board.removeEventListener('click',printer);
+return; 
+       }
+       flag = 'X';
+     }
+     else{
+      element.innerHTML = "X";
+      element.style.color="brown";
+         board_array[element.id] = "X";
+      if(isWinner())
+        {
+          document.getElementById('winningMessage').innerHTML ="WINNER IS X";
+          board.removeEventListener('click',printer);
+          return; 
+        }
+      flag = "O";
+     }
+     if(cnt===9)  
+     {
+      document.getElementById('winningMessage').innerHTML ="MATCH TIED";
+     }
   }
-  return true; // All cells are filled, and if no winner, it's a tie
 }
-if(!checkTie) document.getElementById('winningMessage').innerHTML="Winner is " + turn;
+
+let cnt = 0;
+
+const board = document.querySelector(".board");
+board.addEventListener("click",printer);
+
+const restart = document.getElementById('restartButton');
+restart.addEventListener('click',()=>{
+  const cell = document.getElementsByClassName('cell');
+  Array.from(cell).forEach((val)=>{
+    val.innerHTML="";
+    document.getElementById('winningMessage').innerHTML =""; 
+  })
+  flag = "O";
+  cnt=0;
+  board_array = new Array(9).fill("E");
+  board.addEventListener("click",printer); 
+});
