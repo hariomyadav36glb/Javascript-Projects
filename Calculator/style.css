@@ -1,0 +1,24 @@
+#root{
+    height: 500px;
+    width: 500px;
+    background-color: gray;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+input{
+    margin-left: 50PX;
+    margin-top: 100PX;
+}
+#res{
+    margin-left: 220px;
+    margin-top: 30px;
+    background-color: green;
+    height: 80px;
+    width: 80px;
+}

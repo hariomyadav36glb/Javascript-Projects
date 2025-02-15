@@ -1,0 +1,22 @@
+.box{
+    background-color:white;
+    height: 300px;
+    width: 500px;
+    margin-top: 150px;
+    border-radius: 10px;
+}
+body{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(163, 158, 158);
+}
+h1{
+    text-align: center;
+}
+p{
+    margin-top: 50px;
+    text-align: center;
+}
+button{
+    margin-left: 200px;
+}

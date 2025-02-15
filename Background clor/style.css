@@ -1,0 +1,29 @@
+.box{
+    height: 100px;
+    width: 100px;
+    border: 2px solid black;
+    margin-top: 100px;
+}
+#red{
+     background-color: red;
+
+}
+#green{
+    background-color:green;
+    
+}
+#blue{
+    background-color:blue;
+    
+}
+#pink{
+    background-color:pink;
+    
+}
+body{
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
